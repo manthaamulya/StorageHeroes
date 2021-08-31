@@ -7,7 +7,9 @@ import numpy as np
 import shutil
 import sys
 def memes_classifier(folder_path):
-    model_path = "photosorganisation/trained_models/meme_classifier.h5"
+    loca_path = os.path.dirname(__file__)
+    model_path =  os.path.join(loca_path, "trained_models","meme_classifier.h5")
+    #model_path = "photosorganisation/trained_models/meme_classifier.h5"
     pipeline = models.load_model(model_path)
 
     path = folder_path
