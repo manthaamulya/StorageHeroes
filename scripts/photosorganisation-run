@@ -41,7 +41,7 @@ if __name__ == "__main__":
     print(colored(f"Found total {total_photos} photos from {total_folders} sub-folders. Total size: {total_size}","blue"))
     ###
     if args["duplicates"] == True:
-            ####run duplicates
+        ####run duplicates
         #print(args)
         duplicates,hash_keys = find_duplicates(received_photos)
         print(colored(f"Found {len(duplicates)} duplicates","red"))
@@ -74,14 +74,15 @@ if __name__ == "__main__":
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
 
-    else:
-    ####run duplicates
+    elif args["duplicates"] == False and args["blurry"] == False and \
+    args["screenshots"] == False and args["memes"] == False:
+        ####run duplicates
         duplicates,hash_keys = find_duplicates(received_photos)
         print(colored(f"Found {len(duplicates)} duplicates","red"))
         move_duplicates(duplicates,folder_path)
 
 
-         ### screenshots
+        ### screenshots
         run_screenshot(folder_path)
         total_screenshots_size = get_size(os.path.join(folder_path, 'Screenshots'))
         print(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size}", "green"))
@@ -95,7 +96,7 @@ if __name__ == "__main__":
         print(colored(f"Found and moved Blurry photos to folder; size: {total_blurry_size}","green"))
 
 
-         ###similar
+        ###similar
         received_photos2, folders = get_photos(folder_path)
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
