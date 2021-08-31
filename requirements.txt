@@ -27,5 +27,12 @@ six>=1.14
 joblib
 memoized-property
 termcolor
+
 #
 humanize
+imageio
+opencv-python
+
+# geolocation and tag
+exif
+geopy
