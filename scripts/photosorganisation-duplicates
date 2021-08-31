@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Imports"""
+from photosorganisation.photos import get_photos
+from photosorganisation.duplicates import find_duplicates, move_duplicates
+import os
+import matplotlib.pyplot as plt
+import photosorganisation.get_total_size
+from photosorganisation.get_total_size import get_size
+import sys
+
+
+if __name__ == "__main__":
+    folder_path = sys.argv[1]
+
+    total_size = get_size(folder_path)
+    received_photos,folders = get_photos(folder_path)
+    total_photos = len(received_photos)
+    total_folders = len(folders)-1
+    print(f"Found total {total_photos} photos from {total_folders} sub-folders. Total size: {total_size}")
+    #print(received_photos)
+    duplicates,hash_keys = find_duplicates(received_photos)
+    print(f"Found {len(duplicates)} duplicates")
+    move_duplicates(duplicates,folder_path)
+    total_duplicates_size = get_size(os.path.join(folder_path, 'Duplicates'))
+    print(f"Moved Duplicates to folder, size: {total_duplicates_size}")
