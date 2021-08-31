@@ -8,11 +8,13 @@ import shutil
 import joblib
 import sys
 def blurry_classifier(folder_path):
-    model_path = "photosorganisation/trained_models/blur_detector.h5"
+    loca_path = os.path.dirname(__file__)
+    model_path = os.path.join(loca_path, "trained_models", "blur_detector.h5")
+    #model_path = "photosorganisation/trained_models/blur_detector.h5"
     pipeline = models.load_model(model_path)
 
     path = folder_path
-#path = os.path.join('.', 'raw_data', 'test_mantha')
+    #path = os.path.join('.', 'raw_data', 'test_mantha')
 
     img_dict = get_image_dict(path, size = (200,200))
     blurry_dump = os.path.join(path,'Blurry')
