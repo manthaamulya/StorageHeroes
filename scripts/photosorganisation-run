@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Imports"""
+import os
+import matplotlib.pyplot as plt
+import sys
+from termcolor import colored
+import photosorganisation
+import argparse
+#imports from modules
+from photosorganisation.photos import get_photos
+from photosorganisation.duplicates import find_duplicates, move_duplicates
+from photosorganisation.similar_photos import sort_similar, move_similar, difference_score_dict_hem
+from photosorganisation.screenshot_classifier import run_screenshot
+from photosorganisation.meme_classifier import memes_classifier
+from photosorganisation.blurry_classifier import blurry_classifier
+import photosorganisation.get_total_size
+from photosorganisation.get_total_size import get_size
+
+def parse_args():
+    ap = argparse.ArgumentParser(description="Optional arguments for choosing sorting criteria")
+    ap.add_argument("-d", "--duplicates", required=False, help="Option to sort only duplicates and similar")
+    ap.add_argument("-m", "--memes", required=False, help="Option to sort only memes")
+    ap.add_argument("-s", "--screenshots", required=False, help="Option to sort only Screenshots")
+    ap.add_argument("-b", "--blurry", required=False, help="Option to sort only blurred photos")
+    requiredNamed = ap.add_argument_group('required arguments')
+    requiredNamed.add_argument('-f', '--folder_path', help='Input folder path', required=True,default='./')
+    return vars(ap.parse_args())
+
+if __name__ == "__main__":
+
+    args = parse_args()
+    folder_path = args["folder_path"]
+
+    total_size = get_size(folder_path)
+    received_photos,folders = get_photos(folder_path)
+    total_photos = len(received_photos)
+    total_folders = len(folders)-1
+    print(colored(f"Found total {total_photos} photos from {total_folders} sub-folders. Total size: {total_size}","blue"))
+
+
+
+    ####run duplicates
+    duplicates,hash_keys = find_duplicates(received_photos)
+    print(colored(f"Found {len(duplicates)} duplicates","red"))
+    move_duplicates(duplicates,folder_path)
+
+
+    ### screenshots
+    run_screenshot(folder_path)
+    total_screenshots_size = get_size(os.path.join(folder_path, 'Screenshots'))
+    print(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size}", "green"))
+
+
+    ### memes
+    memes_classifier(folder_path)
+    total_memes_size = get_size(os.path.join(folder_path, 'Memes'))
+    print(colored(f"Found and moved Memes to folder; size: {total_memes_size}","green"))
+
+
+    ### blurry
+    blurry_classifier(folder_path)
+    total_blurry_size = get_size(os.path.join(folder_path, 'Blurry'))
+    print(colored(f"Found and moved Blurry photos to folder; size: {total_blurry_size}","green"))
+
+
+    ###similar
+    received_photos2, folders = get_photos(folder_path)
+    similar = sort_similar(received_photos2)
+    move_similar(similar, folder_path)

@@ -1,1 +1,4 @@
 include requirements.txt
+include *.h5
+include *.pkl
+recursive-include ./photosorganisation/trained_models/*

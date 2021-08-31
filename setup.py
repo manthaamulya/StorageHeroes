@@ -5,13 +5,24 @@ with open('requirements.txt') as f:
     content = f.readlines()
 requirements = [x.strip() for x in content if 'git+' not in x]
 
-setup(name='StorageHeroes',
-      version="1.0",
-      description="Project Description",
-      packages=find_packages(),
-      install_requires=requirements,
-      test_suite='tests',
-      # include_package_data: to install data from MANIFEST.in
-      include_package_data=True,
-      scripts=['scripts/StorageHeroes-run'],
-      zip_safe=False)
+setup(
+    name='photosorganisation',
+    version="1.0",
+    description=(
+                "This python Package helps you sort and organize photos."
+                "Duplicates,Memes,Screenshots and Blurry Photos are identifed."
+                "Photos are tagged and classified for Geo-Location, Selfies,Animals etc."
+    ),
+    packages=find_packages(),
+    install_requires=requirements,
+    test_suite='tests',
+    #include_package_data: to install data from MANIFEST.in
+    include_package_data=True,
+    scripts=[
+        'scripts/photosorganisation-run', 'scripts/photosorganisation-duplicates',
+        'scripts/photosorganisation-SimilarPhotos',
+        'scripts/photosorganisation-screenshot_classifier',
+        'scripts/photosorganisation-blurry_classifier',
+        'scripts/photosorganisation-memes_classifier'
+    ],
+    zip_safe=False)
