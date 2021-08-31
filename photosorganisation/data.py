@@ -5,6 +5,8 @@ import numpy as np
 from google.cloud import storage
 from zipfile import ZipFile
 
+from tensorflow.keras.applications.vgg16 import preprocess_input
+
 def get_data_gcp(GCP_FILE_NAME):
     """downloads a zip file into the current working directory and extracts its contents into the raw data folder
 
@@ -49,12 +51,12 @@ def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = T
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 X.append(clr)
             if type(n_img) == int:
-                    i += 1
-                    if i == n_img:
-                        if asarray:
-                            return np.array(X)
-                        else:
-                            return X
+                i += 1
+                if i == n_img:
+                    if asarray:
+                        return np.array(X)
+                    else:
+                        return X
 
     if how == 'many':
         for folder in os.listdir(path):
@@ -84,7 +86,7 @@ def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = T
 
 picture_file_types = ('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif', '.heic')
 
-def get_image_dict(path, grayscale = True, size = (100, 100)):
+def get_image_dict(path, grayscale = True, size = (100, 100), vgg16 = False):
     """loads all images into a dictionary with file names as keys
 
     Args:
@@ -95,7 +97,7 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
     Returns:
         A dictionary of images as np.arrays with the file names as keys
     """
-     #instantiating a dictionary with picture file names as keys
+    #instantiating a dictionary with picture file names as keys
     img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}
 
     for file in os.listdir(path):
@@ -106,8 +108,14 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
                 res = cv2.resize(gray, dsize=size)                    #resize
                 img_dict[file] = res
             else:
-                clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                res = cv2.resize(gray, dsize=size)
-                img_dict[file] = clr
+                if vgg16:
+                    clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    res = cv2.resize(clr, dsize=size)
+                    preproc = preprocess_input(res)
+                    img_dict[file] = preproc
+                else:
+                    clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    res = cv2.resize(gray, dsize=size)
+                    img_dict[file] = clr
 
     return img_dict
