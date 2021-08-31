@@ -38,4 +38,4 @@ def photomulticlassifier(folder_path):
             i=pred_new.index(1)
             shutil.move((os.path.join(path, k)), (os.path.join(path, class_names[i], k)))
 
-photomulticlassifier('/home/aswathy/code/StorageHeroes/raw_data/test_multiclassifier')
+#photomulticlassifier('/home/aswathy/code/StorageHeroes/raw_data/test_multiclassifier')
