@@ -7,7 +7,9 @@ import numpy as np
 import shutil
 import joblib
 import sys
+from termcolor import colored
 def blurry_classifier(folder_path):
+    print(colored("Looking for Blurry Photos...", "cyan", attrs=['bold']))
     loca_path = os.path.dirname(__file__)
     model_path = os.path.join(loca_path, "trained_models", "blur_detector.h5")
     #model_path = "photosorganisation/trained_models/blur_detector.h5"

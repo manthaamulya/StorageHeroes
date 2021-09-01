@@ -36,3 +36,6 @@ opencv-python
 # geolocation and tag
 exif
 geopy
+
+#
+mtcnn

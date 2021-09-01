@@ -7,7 +7,7 @@ requirements = [x.strip() for x in content if 'git+' not in x]
 
 setup(
     name='photosorganisation',
-    version="1.0",
+    version="1.0.0.5",
     description=(
                 "This python Package helps you sort and organize photos."
                 "Duplicates,Memes,Screenshots and Blurry Photos are identifed."
@@ -19,10 +19,6 @@ setup(
     #include_package_data: to install data from MANIFEST.in
     include_package_data=True,
     scripts=[
-        'scripts/photosorganisation-run', 'scripts/photosorganisation-duplicates',
-        'scripts/photosorganisation-SimilarPhotos',
-        'scripts/photosorganisation-screenshot_classifier',
-        'scripts/photosorganisation-blurry_classifier',
-        'scripts/photosorganisation-memes_classifier'
+        'scripts/photosorganisation-run'
     ],
     zip_safe=False)
