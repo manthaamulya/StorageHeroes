@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Imports"""
 import os
+from photosorganisation.photomulticlassifier import photomulticlassifier
 import matplotlib.pyplot as plt
 import sys
 from termcolor import colored
@@ -16,6 +17,8 @@ from photosorganisation.meme_classifier import memes_classifier
 from photosorganisation.blurry_classifier import blurry_classifier
 import photosorganisation.get_total_size
 from photosorganisation.get_total_size import get_size
+from photosorganisation.geo_comment_tags import save_tags
+from photosorganisation.people_detecting import people
 
 def parse_args():
     ap = argparse.ArgumentParser(description="Optional arguments for choosing sorting criteria")
@@ -70,6 +73,7 @@ if __name__ == "__main__":
 
     if args["duplicates"] == True:
         ### similar
+        print("Sorting identical photos...")
         received_photos2, folders = get_photos(folder_path)
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
@@ -100,3 +104,32 @@ if __name__ == "__main__":
         received_photos2, folders = get_photos(folder_path)
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
+
+####Classification to move to folders
+    to_organise_photos, folders = get_photos(folder_path)
+    # 1. first for all the images, add geo tags.
+    for index, filename in enumerate(to_organise_photos):
+        if os.path.isfile(filename):
+            if filename.lower().endswith(('.png')):
+                pass
+            else:
+                save_tags(filename)
+    # 2. Then, mkdir People, run the face detector, move to ppl folder
+            people(filename,folder_path)
+    photomulticlassifier(folder_path)
+
+
+
+
+
+
+
+
+
+
+# 3. pass the left overs to the multi-classifier, it moves to folders. sorted
+# 4.and then may be add tags?
+# 5. document neatly with usage and everything
+# 6. download a big photos from my cloud may be and into my HD
+# 7. use the sorted for statistics? Efficiency, memory in size?
+# 8. future better cnn models, ideas, selfies, face recognition

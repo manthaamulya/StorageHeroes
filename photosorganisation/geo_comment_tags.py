@@ -9,13 +9,12 @@ def image_exif(image_directory):
       with open(image_directory, "rb") as test_file:
         new_file = Image(test_file)
         #print(image_directory)
-        
+
         return new_file
 
 def get_location(img_exif):
     """Get the geolocation of the picture from EXIF"""
     from geopy.geocoders import Nominatim
-
     #get latitude and longitude
     img_lat = img_exif.gps_latitude[0] + (img_exif.gps_latitude[1] / 60) + (img_exif.gps_latitude[2] / 3600)
     img_lon = img_exif.gps_longitude[0] + (img_exif.gps_longitude[1] / 60) + (img_exif.gps_longitude[2] / 3600)
@@ -23,7 +22,7 @@ def get_location(img_exif):
     # get the reference of the latitude, if South hemisphere becomes negative
     if img_exif.gps_latitude_ref == "S":
         img_lat = -img_lat
-  
+
     #  get the reference of the longitude, if West becomes negative
     if img_exif.gps_longitude_ref == "W":
         img_lon = -img_lon
@@ -48,13 +47,13 @@ def get_location(img_exif):
         town = location.raw["address"]["municipality"]
     else:
         town = "No Town"
-    
+
     return f'{town}, {location.raw["address"]["state"]}, {location.raw["address"]["country"]}'
 
 
 ####################### TAGS #############################
 def char_fixer(string):
-    """ 
+    """
     Find special characters in a string and replace them for normal letters
     """
     a_acc = "àáâãäåæ"
@@ -88,17 +87,17 @@ def add_tags(image, user_comment):
     Add the new Geo Tag to the picture in a EXIF variable
     Add Comment to the picture in a EXIF variable
     """
-
-    if get_location(image):
+    try:
+        get_location(image)
         place = get_location(image)
         image.image_description = char_fixer(place)
-    else:
-        image.image_description = "no location"   
+    except:
+        image.image_description = "no location"
     print(image.image_description)
     if user_comment != "0":
         image["user_comment"] = char_fixer(user_comment)
         print(image["user_comment"])
-        
+
     return image
 
 
@@ -106,9 +105,9 @@ def save_tags(image_directory, user_comment="0"):
     """"
     Call the image_exif function for the EXIF information
     Call the add_geo_image_description for updating the EXIF of the picture
-    Save the image with updated Tags 
+    Save the image with updated Tags
     """
- 
+
     #filename = os.path.split(image_directory)[1]
     image_info = image_exif(image_directory)
     img32 = add_tags(image_info, user_comment)
