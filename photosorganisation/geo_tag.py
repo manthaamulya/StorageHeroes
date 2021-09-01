@@ -42,7 +42,7 @@ def get_location(img_exif):
     #i_acc = "ìíîï"
     #o_acc = "ðòóôõö"
     #u_acc = "ùúûü"
-    print(location.raw["address"].values())
+    #print(location.raw["address"].values())
     for value in location.raw["address"].values():
         for i in a_acc:
             if i in value:
@@ -72,7 +72,7 @@ def add_geo_image_description(image):
         except:
             image.image_description = "no location"
 
-    print(image.image_description)
+    #print(image.image_description)
 
     return image
 
@@ -91,7 +91,7 @@ def save_updated_image(image_directory):
     with open(image_directory, 'wb') as image_ex:
         image_ex.write(img32.get_file())
         #print(image_ex.write(img32.get_file()))
-        print("File information updated")
+        #print("File information updated")
 
 
-save_updated_image('/home/amulyamantha/code/jaseppala/photosorganisation/raw_data/test_mantha/Mantha.jpg')
+#save_updated_image('/home/amulyamantha/code/jaseppala/photosorganisation/raw_data/test_mantha/Mantha.jpg')

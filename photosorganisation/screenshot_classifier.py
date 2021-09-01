@@ -6,17 +6,18 @@ import os
 import shutil
 import sys
 from pathlib import Path
+from termcolor import colored
 
 
 
 
 
 def run_screenshot(folder_path):
-
+    print(colored("Looking for Screenshots..", "cyan", attrs=['bold']))
     #model = models.load_model('cnn_screenshots.h5')
     loca_path = os.path.dirname(__file__)
     model_path =  os.path.join(loca_path, "trained_models","cnn_screenshots.h5")
-    print(model_path)
+    #print(model_path)
     model = models.load_model(model_path)
     #path = os.path.join('.', 'raw_data', 'test_mantha')
     path = folder_path

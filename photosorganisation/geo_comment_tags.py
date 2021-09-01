@@ -93,10 +93,10 @@ def add_tags(image, user_comment):
         image.image_description = char_fixer(place)
     except:
         image.image_description = "no location"
-    print(image.image_description)
+    #print(image.image_description)
     if user_comment != "0":
         image["user_comment"] = char_fixer(user_comment)
-        print(image["user_comment"])
+        #print(image["user_comment"])
 
     return image
 
@@ -117,4 +117,4 @@ def save_tags(image_directory, user_comment="0"):
     with open(image_directory, 'wb') as image_ex:
         image_ex.write(img32.get_file())
         #print(image_ex.write(img32.get_file()))
-        print("File information updated")
+        #print("File information updated")

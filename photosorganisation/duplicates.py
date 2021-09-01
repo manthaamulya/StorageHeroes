@@ -16,7 +16,7 @@ from photosorganisation.get_total_size import get_size
 def find_duplicates(filepath):
     duplicates = []
     hash_keys = dict()
-    print("Looking for Duplicates..")
+    print(colored("Looking for Duplicates..", "cyan", attrs=['bold']))
     for index, filename in enumerate(filepath):
         #print(filename)
         if os.path.isfile(filename):

@@ -6,14 +6,16 @@ import cv2
 import numpy as np
 import shutil
 import sys
+from termcolor import colored
 def memes_classifier(folder_path):
+    print(colored("Looking for Memes..", "cyan", attrs=['bold']))
     loca_path = os.path.dirname(__file__)
     model_path =  os.path.join(loca_path, "trained_models","meme_classifier.h5")
     #model_path = "photosorganisation/trained_models/meme_classifier.h5"
     pipeline = models.load_model(model_path)
 
     path = folder_path
-#path = os.path.join('.', 'raw_data', 'test_mantha')
+    #path = os.path.join('.', 'raw_data', 'test_mantha')
 
     img_dict = get_image_dict(path, size = (100,100))
     memes_dump = os.path.join(path,'Memes')

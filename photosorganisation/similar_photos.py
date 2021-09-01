@@ -76,6 +76,7 @@ def move_similar(similarList,folder_path):
             #print(file)
             shutil.move(file, similar_folder)
             total_Similar_size = get_size(os.path.join(folder_path, 'Similar'))
+        print(colored(f"Found near duplicates. Delete unnecessary!! Save Space!!", "red"))
         print(colored(f"Found and moved {len(similarList)} Photos which are similar, Folder size:{total_Similar_size}","green"))
 
 ####
