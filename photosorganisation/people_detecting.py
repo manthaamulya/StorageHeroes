@@ -5,6 +5,7 @@ import cv2
 from mtcnn.mtcnn import MTCNN
 import sys
 import os
+import shutil
 #detect faces
 def detect_faces(filename):
     img = pyplot.imread(filename)
@@ -35,12 +36,17 @@ def extract_faces(filename, required_size=(224, 224)):
         faces_in_image.append(face_array)
     return faces_in_image, img
 #function to decide if there are ppl or not
-def people(filename):
+def people(filename,folder_path):
     people = detect_faces(filename)
     if len(people) > 0:
-        return True
+        people_dump = os.path.join(folder_path, 'People')
+        if not os.path.exists(people_dump):
+            os.mkdir(people_dump)
+        #print(people_dump)
+        shutil.move(filename, people_dump)
+
     else:
-        return False
+        pass
 ####
 if __name__ == '__main__':
     number_of_folders = len(sys.argv)
