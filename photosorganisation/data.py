@@ -93,12 +93,17 @@ def get_image_dict(path, grayscale = True, size = (100, 100), vgg16 = False):
         path (string): the system path from which to load the images
         grayscale (bool, optional): load images as grayscale (True) or in colour (False). Defaults to True.
         size (tuple, optional): Resize images to the size expected by the model. Defaults to (100, 100).
+        vgg16 (bool, optional): load images in vgg16 format. Defaults to False.
 
     Returns:
         A dictionary of images as np.arrays with the file names as keys
     """
     #instantiating a dictionary with picture file names as keys
     img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}
+
+    #vgg16 expects RGB pictures
+    if vgg16 = True:
+        grayscale = False
 
     for file in os.listdir(path):
         if file.lower().endswith(picture_file_types):                              #get every image file in folder
@@ -111,7 +116,7 @@ def get_image_dict(path, grayscale = True, size = (100, 100), vgg16 = False):
                 if vgg16:
                     clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                     res = cv2.resize(clr, dsize=size)
-                    preproc = preprocess_input(res)
+                    preproc = preprocess_input(res)                         #vgg16 preprocessing
                     img_dict[file] = preproc
                 else:
                     clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
