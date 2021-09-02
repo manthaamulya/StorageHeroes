@@ -23,15 +23,18 @@ from photosorganisation.geo_comment_tags import save_tags
 from photosorganisation.people_detecting import people
 import warnings
 warnings.filterwarnings("ignore")
-##import logging
+import logging
 import os
 import tensorflow as tf
 import emoji
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+from mtcnn.mtcnn import MTCNN
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
 tf.get_logger().setLevel('INFO')
 #from tensorflow.python.client import device_lib
-
+tf.get_logger().setLevel(logging.ERROR)
+tf.compat.v1.logging.set_verbosity(0)
+tf.autograph.set_verbosity(0)
 f = Figlet(font='standard')
 print(emoji.emojize(colored(f.renderText("       Storage   Heroes     "), "red")))
 
@@ -43,7 +46,7 @@ def parse_args():
     ap.add_argument("-m", "--memes",action='store_true', required=False, help="Option to sort only memes")
     ap.add_argument("-s", "--screenshots",action='store_true', required=False, help="Option to sort only Screenshots")
     ap.add_argument("-b", "--blurry",action='store_true', required=False, help="Option to sort only blurred photos")
-    ap.add_argument("-c", "--classification",action='store_true', required=False, help="Option to sort only blurred photos")
+    ap.add_argument("-c", "--classification",action='store_true', required=False, help="Option to just classify and tags photos")
     requiredNamed = ap.add_argument_group('required arguments')
     requiredNamed.add_argument('-f', '--folder_path', help='Input folder path', required=False, default='./')
     return vars(ap.parse_args())
@@ -73,25 +76,25 @@ if __name__ == "__main__":
         ### screenshots
         run_screenshot(folder_path)
         total_screenshots_size = get_size(os.path.join(folder_path, 'Screenshots'))
-        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green")))
+        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green",attrs=['bold'])))
 
 
     if args["memes"] == True:
         ### memes
         memes_classifier(folder_path)
         total_memes_size = get_size(os.path.join(folder_path, 'Memes'))
-        print(emoji.emojize(colored(f"Found and moved Memes to folder; size: {total_memes_size} :smiling_face_with_halo: ","green")))
+        print(emoji.emojize(colored(f"Found and moved Memes to folder; size: {total_memes_size} :smiling_face_with_halo: ","green",attrs=['bold'])))
 
     if args["blurry"] == True:
         ### blurry
         blurry_classifier(folder_path)
         total_blurry_size = get_size(os.path.join(folder_path, 'Blurry'))
-        print(emoji.emojize(colored(f"Found and moved Blurry photos to folder; size: {total_blurry_size} :smiling_face_with_halo: ","green")))
+        print(emoji.emojize(colored(f"Found and moved Blurry photos to folder; size: {total_blurry_size} :smiling_face_with_halo: ","green",attrs=['bold'])))
 
 
     if args["duplicates"] == True:
         ### similar
-        print(emoji.emojize(colored("Sorting identical photos :face_with_monocle: ...","magenta", attrs=['bold'])))
+        print(emoji.emojize(colored("Sorting near-duplicates :face_with_monocle: ...","magenta", attrs=['bold'])))
         received_photos2, folders = get_photos(folder_path)
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
@@ -107,29 +110,30 @@ if __name__ == "__main__":
         ### screenshots
         run_screenshot(folder_path)
         total_screenshots_size = get_size(os.path.join(folder_path, 'Screenshots'))
-        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green")))
+        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green",attrs=['bold'])))
         ### memes
         memes_classifier(folder_path)
         total_memes_size = get_size(os.path.join(folder_path, 'Memes'))
-        print(emoji.emojize(colored(f"Found and moved Memes to folder; size: {total_memes_size} :smiling_face_with_halo: ","green")))
+        print(emoji.emojize(colored(f"Found and moved Memes to folder; size: {total_memes_size} :smiling_face_with_halo: ","green",attrs=['bold'])))
         ### blurry
         blurry_classifier(folder_path)
         total_blurry_size = get_size(os.path.join(folder_path, 'Blurry'))
-        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green")))
+        print(emoji.emojize(colored(f"Found and moved Screenshots to folder; size: {total_screenshots_size} :smiling_face_with_halo:", "green",attrs=['bold'])))
 
 
         ###similar
         received_photos2, folders = get_photos(folder_path)
-        print(emoji.emojize(colored("Sorting identical photos :face_with_monocle: ...","magenta", attrs=['bold'])))
+        print(emoji.emojize(colored("Sorting near-duplicates photos :face_with_monocle: ...","magenta", attrs=['bold'])))
         similar = sort_similar(received_photos2)
         move_similar(similar, folder_path)
 
 ####Classification to move to folders
 #if args["classification"] == True:
+    detector = MTCNN()
     to_organise_photos, folders = get_photos(folder_path)
     #print(to_organise_photos)
     # 1. first for all the images, add geo tags.
-    print(emoji.emojize(colored("Adding Geo :globe_showing_Europe-Africa: & classifying your photos...", attrs=['bold'])))
+    print(emoji.emojize(colored("Adding Geo Tags :globe_showing_Europe-Africa:...", "blue",attrs=['bold'])))
     for index, filename in enumerate(to_organise_photos):
         if os.path.isfile(filename):
             if filename.lower().endswith(('.png')):
@@ -138,10 +142,13 @@ if __name__ == "__main__":
                 save_tags(filename)
     # 2. Then, mkdir People, run the face detector, move to ppl folder
     #print("Sorting photos with people...")
-            people(filename,folder_path)
-    # print("Sorting photos into classes...","black","on_white")
+            people(filename,folder_path,detector)
+    print(emoji.emojize(colored("Added places Tags :world_map: :classical_building: :Statue_of_Liberty: to your photos...","green",attrs=['bold'])))
+    print(emoji.emojize(colored("Classifiying your photos :red_hair: :dog_face: :shallow_pan_of_food:...","magenta",attrs=['bold'])))
     photomulticlassifier(folder_path)
-print(emoji.emojize(colored(f.renderText("       Done     "), "green")))
+print(
+    emoji.emojize(
+        colored(f.renderText("       Done     "), "green", attrs=['bold'])))
 
 
 

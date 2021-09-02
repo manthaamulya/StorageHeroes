@@ -8,8 +8,9 @@ import shutil
 import joblib
 import sys
 from termcolor import colored
+import emoji
 def blurry_classifier(folder_path):
-    print(colored("Looking for Blurry Photos...", "cyan", attrs=['bold']))
+    print(emoji.emojize(colored(":eyes: Looking for Blurry Photos...", "magenta", attrs=['bold'])))
     loca_path = os.path.dirname(__file__)
     model_path = os.path.join(loca_path, "trained_models", "blur_detector.h5")
     #model_path = "photosorganisation/trained_models/blur_detector.h5"

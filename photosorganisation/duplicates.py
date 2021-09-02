@@ -16,7 +16,7 @@ import emoji
 def find_duplicates(filepath):
     duplicates = []
     hash_keys = dict()
-    print(emoji.emojize(colored(" :eyes: Looking for Duplicates..", "cyan", "on_white",attrs=['bold'])))
+    print(emoji.emojize(colored(" :eyes: Looking for Duplicates..", "magenta",attrs=['bold'])))
     for index, filename in enumerate(filepath):
         #print(filename)
         if os.path.isfile(filename):

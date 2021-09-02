@@ -78,7 +78,7 @@ def move_similar(similarList,folder_path):
             shutil.move(file, similar_folder)
             total_Similar_size = get_size(os.path.join(folder_path, 'Similar'))
         print(emoji.emojize(colored(f"Found near duplicates. Delete unnecessary!! Save Space!! :hourglass_not_done:", "red")))
-        print(emoji.emojize(colored(f"Found and moved {len(similarList)} Photos which are similar, Folder size:{total_Similar_size} :man_dancing:","green")))
+        print(emoji.emojize(colored(f"Found and moved {len(similarList)} Photos which are similar, Folder size:{total_Similar_size} :man_dancing:","green",attrs=['bold'])))
 
 ####
 def sort_similar(received_photos):
@@ -96,4 +96,4 @@ if __name__ == "__main__":
     similar = sort_similar(received_photos)
     move_similar(similar, folder_path)
 
-    print(colored(f"Found and moved {len(similar)} Photos similar to one another", "yellow"))
+    print(colored(f"Found and moved {len(similar)} Photos similar to one another", "green",attrs=['bold']))

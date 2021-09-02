@@ -7,13 +7,10 @@ import shutil
 import sys
 from pathlib import Path
 from termcolor import colored
-
 import emoji
 
-
-
 def run_screenshot(folder_path):
-    print(emoji.emojize(colored(":eyes: Looking for Screenshots :mobile_phone_with_arrow: ...", "cyan", attrs=['bold'])))
+    print(emoji.emojize(colored(":eyes: Looking for Screenshots :mobile_phone_with_arrow: ...", "magenta", attrs=['bold'])))
     #model = models.load_model('cnn_screenshots.h5')
     loca_path = os.path.dirname(__file__)
     model_path =  os.path.join(loca_path, "trained_models","cnn_screenshots.h5")

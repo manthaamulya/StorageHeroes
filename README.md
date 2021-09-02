@@ -1,6 +1,8 @@
 # Data analysis
 - Document here the project: StorageHeroes
-- Description: Project Description
+- Description: "This python Package helps you sort and organize photos."
+                "Duplicates,Memes,Screenshots and Blurry Photos are identifed."
+                "Photos are tagged and classified for Geo-Location, People,Animals etc."
 - Data Source:
 - Type of analysis:
 

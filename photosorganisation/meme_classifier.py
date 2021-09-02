@@ -9,7 +9,7 @@ import sys
 from termcolor import colored
 import emoji
 def memes_classifier(folder_path):
-    print(emoji.emojize(colored("	:cat_with_tears_of_joy: Looking for Memes..", "cyan", attrs=['bold'])))
+    print(emoji.emojize(colored(":cat_with_tears_of_joy:Looking for Memes..", "magenta", attrs=['bold'])))
     loca_path = os.path.dirname(__file__)
     model_path =  os.path.join(loca_path, "trained_models","meme_classifier.h5")
     #model_path = "photosorganisation/trained_models/meme_classifier.h5"
