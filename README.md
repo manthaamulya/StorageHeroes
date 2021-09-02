@@ -1,6 +1,6 @@
 # Data analysis
 - Document here the project: StorageHeroes
-- Description: Project Description
+- Description: This package sorts out unwanted photos (duplicates, screenshots, etc.) and tags and groups successful photos.
 - Data Source:
 - Type of analysis:
 
