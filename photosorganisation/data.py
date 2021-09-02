@@ -102,7 +102,7 @@ def get_image_dict(path, grayscale = True, size = (100, 100), vgg16 = False):
     img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}
 
     #vgg16 expects RGB pictures
-    if vgg16 = True:
+    if vgg16:
         grayscale = False
 
     for file in os.listdir(path):
