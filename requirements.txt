@@ -39,3 +39,7 @@ geopy
 
 #
 mtcnn
+
+#
+emoji
+pyfiglet

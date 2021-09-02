@@ -7,7 +7,7 @@ requirements = [x.strip() for x in content if 'git+' not in x]
 
 setup(
     name='photosorganisation',
-    version="1.0.0.5",
+    version="1.0.1.2",
     description=(
                 "This python Package helps you sort and organize photos."
                 "Duplicates,Memes,Screenshots and Blurry Photos are identifed."
