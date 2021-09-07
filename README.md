@@ -26,6 +26,9 @@ photosorganisation-run -s -f 'path'
 
 # move just Memes into folder called 'Memes'
 photosorganisation-run -m -f 'path'
+
+# Identify and move just Blurred Photos into folder called 'Blurry'
+photosorganisation-run -b -f 'path'
 ```
 
 ## Contributing
