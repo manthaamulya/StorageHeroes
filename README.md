@@ -1,6 +1,7 @@
 # AI Photos Organisation :camera: :fire:
 
 Photos Organisation is a Python library for organising your Large photo storage. Duplicates,Memes,Screenshots and Blurry Photos are identifed.Photos are tagged and classified for Geo-Location, Selfies,Animals etc.
+#### [Here's a fun link to a Trailer our Team Storage Heroes, made for the demo] (https://youtu.be/gw02FgKLIUk) 
 
 ## Installation
 
