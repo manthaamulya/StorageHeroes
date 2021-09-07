@@ -7,10 +7,14 @@ import sys
 import os
 import shutil
 #detect faces
-def detect_faces(filename):
+def define_detector():
+    detector = MTCNN()
+    return detector
+
+def detect_faces(filename,detector):
     img = pyplot.imread(filename)
     #create detector using default weights
-    detector = MTCNN()
+
     #detect all faces in image
     results = detector.detect_faces(img)
     return results
@@ -36,8 +40,8 @@ def extract_faces(filename, required_size=(224, 224)):
         faces_in_image.append(face_array)
     return faces_in_image, img
 #function to decide if there are ppl or not
-def people(filename,folder_path):
-    people = detect_faces(filename)
+def people(filename,folder_path,detector):
+    people = detect_faces(filename,detector)
     if len(people) > 0:
         people_dump = os.path.join(folder_path, 'People')
         if not os.path.exists(people_dump):

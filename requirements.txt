@@ -39,3 +39,8 @@ geopy
 
 #
 mtcnn
+
+#
+emoji
+pyfiglet
+tensorflow-cpu

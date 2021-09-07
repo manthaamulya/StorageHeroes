@@ -3,8 +3,7 @@ def image_exif(image_directory):
   from exif import Image
   import os
   # assign directory
-  # iterate over files in
-  # that directory
+  # iterate over files in that directory
   if os.path.isfile(image_directory):
       with open(image_directory, "rb") as test_file:
         new_file = Image(test_file)
